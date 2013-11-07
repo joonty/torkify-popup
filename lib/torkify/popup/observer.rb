@@ -2,15 +2,16 @@ require 'notifier'
 
 module Torkify::Popup
   class Observer
-    attr_reader :me
+    attr_reader :me, :options
 
     def initialize(options = {})
-      @me = "torkify-popup"
+      @me = "popup"
+      @options = options
     end
 
     def alert_info(title, body)
       unless @block_alerts
-        Torkify.logger.debug { "#{me}: notification, title: '#{title}', message: '#{message}'" }
+        Torkify.logger.debug { "[#{me}] notification, title: '#{title}', message: '#{body}'" }
         Notifier.notify(
           image: options[:ok_image],
           title: title,
@@ -21,7 +22,7 @@ module Torkify::Popup
 
     def alert_error(title, body)
       unless @block_alerts
-        Torkify.logger.debug { "#{me}: error notification, title: '#{title}', message: '#{message}'" }
+        Torkify.logger.debug { "[#{me}] error notification, title: '#{title}', message: '#{body}'" }
         Notifier.notify(
           image: options[:error_image],
           title: title,
